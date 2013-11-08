@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 gitway=$(cd -P -- "$(dirname -- "$0")" && printf '%s\n' "$(pwd -P)/git-way")
 commands=(feature fix)
 

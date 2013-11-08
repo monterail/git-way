@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/usr/bin/env sh
 cmd_open() {
   require_feature_branch
   checkout $1

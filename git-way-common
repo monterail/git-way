@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/usr/bin/env sh
 cmd() {
   echo "\033[33;32m$ $1\033[0m"
   eval "$1"
