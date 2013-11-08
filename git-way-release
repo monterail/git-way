@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cmd_release() {
+  require_feature_branch
+  fetch && \
+  sync master && \
+  sync $1 && \
+  rebase $1 && \
+  checkout master && \
+  merge $1 && \
+  push master && \
+  delete $1
+}
+

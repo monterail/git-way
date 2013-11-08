@@ -1,0 +1,110 @@
+#!/bin/sh
+
+cmd() {
+  echo "\033[33;32m$ $1\033[0m"
+  eval "$1"
+}
+
+identify_branch() {
+  local branch
+  local patterns
+
+  if [ -z $2 ]; then
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    case $branch in
+      $1/*)
+        # current branch is a feature branch
+        ;;
+      *)
+        # current branch is not a feature branch, reset branch name
+        branch=''
+        ;;
+    esac
+  else
+    case $2 in
+      *[!0-9]*)
+        # not a number, so we can have partial match, e.g. "foo" should match feature/foobar
+        patterns=(*$1/*$2*)
+        ;;
+      *)
+        # number, so we need a perfect prefix match, e.g. "40" should match feature/40-foo, but not feature/40foo or feature/400
+        patterns=(*$1/$2 *$1/$2-*)
+        ;;
+    esac
+
+    for pattern in ${patterns[@]}; do
+      branch=$(git branch --all --list $pattern | head -n 1 | sed -e "s:remotes/origin/::" | tr -d '* ')
+      [ ! -z $branch ] && break
+    done
+
+    [ -z $branch ] && branch="$1/$2"
+  fi
+
+  echo $branch;
+}
+
+local_branch_exists() {
+  git show-ref --verify --quiet refs/heads/$1
+}
+
+remote_branch_exists() {
+  git show-ref --verify --quiet refs/remotes/origin/$1
+}
+
+checkout() {
+  if local_branch_exists $1; then
+    cmd "git checkout $1"
+  elif remote_branch_exists $1; then
+    cmd "git checkout -b $1 origin/$1"
+  else
+    cmd "git checkout -b $1 master"
+  fi
+}
+
+fetch() {
+  cmd "git fetch --prune"
+}
+
+sync() {
+  checkout $1
+  if remote_branch_exists $1; then
+    cmd "git pull --rebase"
+  fi
+  push $1
+}
+
+merge() {
+  cmd "git merge --no-edit --no-ff $1"
+}
+
+rebase() {
+  cmd "git rebase master"
+}
+
+push() {
+  local remote=$(git config --get branch.$1.remote)
+  local branch=$(git config --get branch.$1.merge | sed -e "s:refs/heads/::")
+
+  [ -z $remote ] && remote=origin
+  [ -z $branch ] && branch=$1
+
+  [ $branch != $1 ] && branch="$1:$branch"
+
+  cmd "git push --set-upstream $remote $branch"
+}
+
+delete() {
+  if remote_branch_exists $1; then
+    local remote=$(git config --get branch.$1.remote)
+    local branch=$(git config --get branch.$1.merge | sed -e "s:refs/heads/::")
+
+    cmd "git push $remote :$branch"
+  fi
+
+  cmd "git branch -D $1"
+}
+
+require_feature_branch() {
+  [ -z $BRANCH ] && usage && exit
+}
+

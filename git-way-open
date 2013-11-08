@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cmd_open() {
+  require_feature_branch
+  checkout $1
+}
+

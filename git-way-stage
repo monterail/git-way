@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cmd_stage() {
+  require_feature_branch
+  fetch && \
+  sync $1 && \
+  push $1 && \
+  sync staging && \
+  merge $1 && \
+  push staging
+  checkout master
+}
+
