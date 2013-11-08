@@ -1,5 +1,7 @@
 # Git Way
 
+High-level wrappers for our lightweight and opinionated git workflow.
+
 ## Installation
 
     ./install
