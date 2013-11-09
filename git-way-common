@@ -103,7 +103,3 @@ delete() {
   cmd "git branch -D $1"
 }
 
-require_feature_branch() {
-  [ -z $BRANCH ] && usage && exit
-}
-

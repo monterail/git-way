@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 cmd_stage() {
-  require_feature_branch
   fetch && \
   sync $1 && \
   push $1 && \

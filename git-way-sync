@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 cmd_sync() {
-  require_feature_branch
   fetch && \
   sync $1
 }

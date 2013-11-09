@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 cmd_release() {
-  require_feature_branch
   fetch && \
   sync master && \
   sync $1 && \
