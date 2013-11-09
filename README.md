@@ -6,30 +6,26 @@ High-level wrappers for our lightweight and opinionated git workflow.
 
     ./install
 
-This will create `git feature` and `git fix` aliases in your `~/.gitconfig`.
+This will create `git way` alias in your `~/.gitconfig`.
 
 ## Usage
 
 ```
-usage: git <command> <subcommand> [<identifier>]
+usage: git-way <subcommand> <branch-prefix> [<identifier>]
 
 <identifier> will try to match one of existing feature or fix branches. It is
 assumed that they are prefixed with 'feature/' and 'fix/' respectively, but the
-prefix must not be included in the <identifier>, it is inferred from <command>.
+prefix must not be included in the <identifier>, it is inferred from
+<branch-prefix>.
 
-Numeric <identifier> matches in the following way: '40' will match feature/40-foo
-but not feature/404.
+Numeric <identifier> matches in the following way: '40' will match
+<branch-prefix>/40-foo but not <branch-prefix>/404.
 
 Non-numeric <identifier> matches any portion of the branch name. E.g. 'foo' will
-match feature/foo, feature/foobar and feature/40-foo.
+match <branch-prefix>/foo, <branch-prefix>/foobar and feature/40-foo.
 
-If the current branch is a feature or fix branch you can omit the <identifier>.
-
-
-Commands:
-  feature     Makes subcommands work on feature branches.
-
-  fix         Makes subcommands work on fix branches.
+If the current branch is a feature or fix branch you can omit <branch-prefix>
+and <identifier>.
 
 
 Subcommands:

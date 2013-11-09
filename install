@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 gitway=$(cd -P -- "$(dirname -- "$0")" && printf '%s\n' "$(pwd -P)/git-way")
-commands=(feature fix)
 
-for command in ${commands[@]}; do
-  git config --global alias.$command "!$gitway $command"
-done
+git config --global alias.way "!$gitway"
+
