@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 cmd_sync() {
-  fetch && \
+  fetch
   sync $1
 }
 

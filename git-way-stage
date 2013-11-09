@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 cmd_stage() {
-  fetch && \
-  sync $1 && \
-  push $1 && \
-  sync staging && \
-  merge $1 && \
+  fetch
+  sync $1
+  push $1
+  sync staging
+  merge $1
   push staging
   checkout master
 }

@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 cmd_release() {
-  fetch && \
-  sync master && \
-  sync $1 && \
-  rebase $1 && \
-  checkout master && \
-  merge $1 && \
-  push master && \
+  fetch
+  sync master
+  sync $1
+  rebase $1
+  checkout master
+  merge $1
+  push master
   delete $1
 }
 

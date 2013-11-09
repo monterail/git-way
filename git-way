@@ -59,6 +59,7 @@ main() {
 
   . "$GITWAY_DIR/git-way-$SUBCOMMAND"
 
+  set -e
   cmd_$SUBCOMMAND $BRANCH
 }
 
